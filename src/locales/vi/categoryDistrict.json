@@ -1,0 +1,16 @@
+{
+  "district": "Quận/Huyện",
+  "selectDistrict": "Chọn quận/huyện",
+  "keySearchDistrictAndAbbreviations": "Tìm theo mã, tên quận/huyện, tên viết tắt",
+  "selectNational": "Chọn quốc gia",
+  "selectCity": "Chọn tỉnh/thành phố",
+  "districtCode": "Mã quận/huyện",
+  "districtName": "Tên quận/huyện",
+  "countriesName": "Quốc gia",
+  "cityName": "Tên tỉnh/thành phố",
+  "abbreviations": "Tên viết tắt",
+  "enterDistrictCode": "Nhập mã quận/huyện",
+  "enterDistrictName": "Nhập tên quận/huyện",
+  "enterAbbreviations": "Nhập tên viết tắt",
+  "categoryDistrict": "danh mục quận/huyện"
+}

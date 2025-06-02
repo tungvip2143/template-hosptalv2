@@ -1,0 +1,12 @@
+{
+  "national": "Quốc gia",
+  "findPlaceholder": "Nhập mã quốc gia, tên quốc gia, tên viết tắt",
+  "inputCountriesCode": "Nhập mã quốc gia",
+  "inputCountriesName": "Nhập tên quốc gia",
+  "inputAbbreviations": "Nhập tên viết tắt",
+  "selectStatus": "Chọn trạng thái",
+  "countriesCode": "Mã quốc gia",
+  "countriesName": "Tên quốc gia",
+  "abbreviations": "Tên viết tắt",
+  "listNationalCategory": "Danh mục quốc gia"
+}

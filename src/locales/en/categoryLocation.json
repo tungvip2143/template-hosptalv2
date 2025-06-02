@@ -1,0 +1,11 @@
+{
+  "location": "Khu vực",
+  "findPlaceholder": "Tìm kiếm theo mã khu vực, tên khu vực",
+  "inputLocationCode": "Nhập mã khu vực",
+  "inputLocationName": "Nhập tên khu vực",
+  "inputBuilding": "Nhập tòa nhà",
+  "locationCode": "Mã khu vực",
+  "locationName": "Tên khu vực",
+  "building": "Tòa nhà",
+  "listLocationCategory": "Danh mục khu vực"
+}

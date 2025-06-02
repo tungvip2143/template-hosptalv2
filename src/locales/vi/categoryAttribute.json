@@ -1,0 +1,14 @@
+{
+    "categoryAttributeCode": "Mã thuộc tính",
+    "categoryAttributeName": "Tên thuộc tính",
+    "categoryAttributeTypeCode": "Mã loại thuộc tính",
+    "categoryAttributeTypeName": "Tên loại thuộc tính",
+    "categoryAttributePlaceholderSearch": "Tìm theo mã, tên thuộc tính",
+    "categoryAttributeInputCodePlaceholder": "Nhập mã thuộc tính",
+    "categoryAttributeInputNamePlaceholder": "Nhập tên thuộc tính",
+    "categoryAttributeInputStatusPlaceholder": "Nhập trạng thái",
+    "categoryAttributeInputTypeNamePlaceholder": "Nhập tên loại thuộc tính",
+    "categoryAttributeTitleTab": "Danh mục thuộc tính",
+    "categoryAttributeTypeTitleTab": "Danh mục loại thuộc tính",
+    "categoryAttributeInputTypeNameSelectPlaceholder": "Loại thuộc tính"
+}

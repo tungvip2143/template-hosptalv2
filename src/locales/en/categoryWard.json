@@ -1,0 +1,14 @@
+{
+  "ward": "Xã/Phường",
+  "wardCode": "Mã xã/phường",
+  "wardName": "Tên xã/phường",
+  "enterWardCode": "Nhập mã xã/phường",
+  "enterWardName": "Nhập tên xã/phường",
+  "enterAbbreviations": "Nhập tên viết tắt",
+  "categoryWard": "danh mục xã/phường",
+  "district": "Quận/huyện",
+  "keySearchCountriesName": "Tìm kiếm theo mã xã/phường, tên xã/phường, tên viết tắt",
+  "keySearchNational": "Chọn quốc gia",
+  "keySearchCity": "Chọn tỉnh/thành phố",
+  "keySearchDistrict": "Chọn quận/huyện"
+}

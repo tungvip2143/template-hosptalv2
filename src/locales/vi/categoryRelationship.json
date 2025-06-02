@@ -1,0 +1,14 @@
+{
+  "findPlaceholder": "Tìm theo mã, tên mối quan hệ",
+  "kindRelationship": "Loại quan hệ",
+  "inputCodeRelationship": "Nhập mã quan hệ",
+  "inputNameRelationship": "Nhập tên quan hệ",
+  "inputKindCodeRelationship": "Nhập mã loại quan hệ",
+  "inputKindNameRelationship": "Nhập tên loại quan hệ",
+  "inputStatus": "Nhập trạng thái",
+  "codeRelationship": "Mã quan hệ",
+  "nameRelationship": "Tên quan hệ",
+  "codeKindRelationship": "Mã loại quan hệ",
+  "nameKindRelationship": "Tên loại quan hệ",
+  "listRelationship": "Danh mục mối quan hệ"
+}

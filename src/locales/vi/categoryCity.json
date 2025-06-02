@@ -1,0 +1,13 @@
+{
+  "citiesCode": "Mã tỉnh/thành phố",
+  "citiesName": "Tên tỉnh/thành phố",
+  "countriesName": "Quốc gia",
+  "abbreviations": "Tên viết tắt",
+  "keySearchCitiesAndAbbreviations": "Tìm kiếm theo mã tỉnh/thành phố, tên tỉnh/thành phố, tên viết tắt",
+  "keySearchCountriesName": "Quốc gia",
+  "enterProvinceCityCode": "Nhập mã tỉnh/thành phố",
+  "enterProvinceCityName": "Nhập tên tỉnh/thành phố",
+  "enterAbbreviations": "Nhập tên viết tắt",
+  "city": "Tỉnh/Thành phố",
+  "selectCity": "Chọn tỉnh/thành phố"
+}

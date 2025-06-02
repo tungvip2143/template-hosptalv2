@@ -1,0 +1,12 @@
+{
+  "keySearchDepartmentAndAbbreviations": "Tìm kiếm theo mã, tên chỉ số",
+  "keySearchDepartment": "Chọn khoa áp dụng",
+  "codeVitalSign": "Mã chỉ số",
+  "nameVitalSign": "Tên chỉ số",
+  "minValue": "Giá trị tối thiểu",
+  "maxValue": "Giá trị tối đa",
+  "applyDepartment": "Khoa áp dụng",
+  "inputCodeVitalSign": "Mã chỉ số sinh hiệu",
+  "inputNameVitalSign": "Tên chỉ số sinh hiệu",
+  "categoryVitalSign": "sinh hiệu"
+}

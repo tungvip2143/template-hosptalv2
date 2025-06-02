@@ -1,0 +1,11 @@
+{
+  "serviceGroupLevel1Code": "Mã nhóm dịch vụ cấp 1",
+  "serviceGroupLevel1Name": "Tên nhóm dịch vụ cấp 1",
+  "serviceGroupLevel1Type": "Loại dịch vụ ",
+  "CostSheetServiceGroup": "Nhóm dịch vụ bảng kê chi phí",
+  "keySearchServiceGroupLevel1AndAbbreviations": "Tìm kiếm theo Mã nhóm dịch vụ cấp 1, tên nhóm dịch vụ cấp 1 ...",
+  "enterServiceGroupLevel1Code": "Nhập mã nhóm dịch vụ cấp 1",
+  "enterServiceGroupLevel1Name": "Nhập tên nhóm dịch vụ cấp 1",
+  "enterServiceGroupLevel1Type": "Chọn loại dịch vụ",
+  "enterCostSheetServiceGroup": "Nhập nhóm dịch vụ bảng kê chi phí"
+}

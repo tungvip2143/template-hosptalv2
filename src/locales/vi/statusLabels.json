@@ -1,0 +1,9 @@
+{
+  "all": "Tất cả",
+  "active": "Hoạt động",
+  "inactive": "Ngưng hoạt động",
+  "draft": "Tạo mới",
+  "waiting_approval": "Chờ duyệt",
+  "rejected": "Từ chối duyệt",
+  "deleted": "Đã xoá"
+}

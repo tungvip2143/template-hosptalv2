@@ -1,0 +1,13 @@
+{
+  "add": "Thêm mới {{ name }}",
+  "delete": "Xóa {{ name }}",
+  "removeRecord": "Xoá bản ghi",
+  "editRecord": "Sửa bản ghi",
+  "removeFilter": "Xoá lọc",
+  "removeAllFilter": "Xoá tất cả",
+  "cancel": "Huỷ bỏ",
+  "saveInfo": "Lưu thông tin",
+  "edit": "Chỉnh sửa {{ name }}",
+  "selectStatus": "Chọn trạng thái {{ name }}",
+  "save": "Lưu"
+}

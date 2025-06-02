@@ -1,0 +1,10 @@
+{
+  "categoryMedicalRecordCode": "Mã bệnh án",
+  "categoryMedicalRecordName": "Tên bệnh án",
+  "categoryMedicalRecordType": "Loại KCB",
+  "keySearchMedicalRecordNameAndCode": "Tìm kiếm theo mã, tên bệnh án",
+  "keySearchAttributeType": "Loại KCB",
+  "categoryMedicalRecordCodePlaceholder": "Nhập mã bệnh án",
+  "categoryMedicalRecordNamePlaceholder": "Nhập tên bệnh án",
+  "categoryMedicalRecordTypePlaceholder": "Chọn loại KCB"
+}
