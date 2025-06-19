@@ -1,47 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { Fragment, lazy, ReactNode } from "react";
+import { Fragment, lazy } from "react";
 import { PUBLIC_ROUTER } from "./components/route";
+import { MenuType, PageNotFound } from "@pnkx-lib/ui";
 
 // Lazy load các component
 const SignIn = lazy(() => import("@src/pages/SignIn"));
-const Page404 = lazy(() => import("@src/pages/Page404"));
 const DefaultLayout = lazy(() => import("@src/pages/DefaultLayout"));
-
-export type MenuType = {
-  name: string;
-  path: string;
-  isShow: boolean;
-  isPrivateRoute?: boolean;
-  layout?:
-    | React.LazyExoticComponent<React.MemoExoticComponent<any>>
-    | React.ExoticComponent<any>
-    | typeof React.Component;
-  children: {
-    name: string;
-    path: string;
-    icon?: ReactNode;
-    isShowChildren?: boolean;
-    component: typeof React.Component | React.FC;
-    children?: Array<{
-      name: string;
-      path: string;
-      icon: ReactNode;
-      component: typeof React.Component | React.FC;
-      children?: Array<{
-        name: string;
-        path: string;
-        icon: ReactNode;
-        component: typeof React.Component | React.FC;
-      }>;
-    }>;
-  }[];
-};
+const DefaultPage = lazy(() => import("@src/pages/DefaultPage"));
 
 const menuRouter: MenuType[] = [
   {
     name: "Login Layout",
     path: PUBLIC_ROUTER.SIGN_IN,
-    layout: Fragment,
+    component: Fragment,
     isShow: false,
     children: [
       {
@@ -52,35 +23,29 @@ const menuRouter: MenuType[] = [
     ],
   },
   {
-    name: "page404",
+    name: "PageNotFound",
     path: PUBLIC_ROUTER.PAGE_404,
-    layout: Fragment,
+    component: Fragment,
     isShow: false,
     children: [
       {
         name: "404",
         path: PUBLIC_ROUTER.PAGE_404,
-        component: Page404,
+        component: PageNotFound,
       },
     ],
   },
   {
     name: "Home Layout",
     path: PUBLIC_ROUTER.HOME,
-    layout: DefaultLayout,
+    component: DefaultLayout,
     isPrivateRoute: false,
     isShow: true,
-
     children: [
       {
-        name: "404",
-        path: PUBLIC_ROUTER.PAGE_404,
-        component: Page404,
-      },
-      {
         name: "Default Page",
-        path: PUBLIC_ROUTER.DEFAULT_PAGE,
-        component: lazy(() => import("@src/pages/DefaultPage")),
+        path: PUBLIC_ROUTER.HOME,
+        component: DefaultPage,
       },
     ],
   },

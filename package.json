@@ -1,20 +1,21 @@
 {
-  "name": "host",
+  "name": "remote-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
-    "build": "vite build --mode production",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && NODE_OPTIONS=--max-old-space-size=32768 vite build --mode production",
     "build:staging": "vite build --mode staging",
     "lint": "eslint .",
     "preview": "vite preview "
   },
   "dependencies": {
     "@module-federation/vite": "^1.2.7",
-    "@pnkx-lib/core": "^1.1.8",
+    "@pnkx-lib/core": "^1.1.71",
     "@pnkx-lib/icon": "^0.0.31",
-    "@pnkx-lib/ui": "^1.9.133",
+    "@pnkx-lib/ui": "^1.9.210",
     "@tailwindcss/vite": "^4.0.17",
     "@tanstack/react-query": "^5.75.4",
     "@tanstack/react-query-devtools": "^5.76.1",

@@ -8,21 +8,24 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter } from "react-router";
 import { ErrorBoundary } from "@pnkx-lib/ui";
 import "./i18n";
+import { AppConfigProvider } from "./providers/ConfigProvider";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary>
-      <BrowserRouter>
-        <QueryClientProvider client={queryClient}>
-          <App />
-          <ReactQueryDevtools
-            initialIsOpen={false}
-            buttonPosition="bottom-right"
-            position="bottom"
-          />
-        </QueryClientProvider>
-      </BrowserRouter>
+      <AppConfigProvider>
+        <BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <App />
+            <ReactQueryDevtools
+              initialIsOpen={false}
+              buttonPosition="bottom-right"
+              position="bottom"
+            />
+          </QueryClientProvider>
+        </BrowserRouter>
+      </AppConfigProvider>
     </ErrorBoundary>
   </StrictMode>
 );

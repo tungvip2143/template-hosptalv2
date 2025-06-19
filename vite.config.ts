@@ -20,8 +20,8 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       federation({
-        name: "host_module",
-        filename: "remoteHost.js",
+        name: "remote_app",
+        filename: "remoteEntry.js",
         exposes: {},
         remotes: {},
         shared: {
@@ -48,11 +48,93 @@ export default defineConfig(({ mode }) => {
       cssCodeSplit: true,
       sourcemap: !isProd,
       chunkSizeWarningLimit: DEFAULT_CHUNK_SIZE_WARNING_LIMIT,
+      // Thêm cấu hình để xử lý circular dependency
+      commonjsOptions: {
+        include: [/node_modules/],
+        transformMixedEsModules: true,
+      },
+      rollupOptions: {
+        input: "index.html",
+        external: (id) => {
+          // Externalize 'antd' và các package phụ thuộc ngoài khác
+          if (["antd", "moment"].includes(id)) {
+            return true;
+          }
+          // Externalize Node.js built-in modules only when they're imported by build tools
+          if (["fs", "path", "crypto", "util", "stream", "os"].includes(id)) {
+            return false; // Don't externalize, let Vite handle the polyfill/error
+          }
+          return false;
+        },
+
+        // Suppress the eval warning for module federation
+        onwarn(warning, warn) {
+          // Skip eval warnings from module federation
+          if (
+            warning.code === "EVAL" &&
+            warning.id?.includes("@module-federation")
+          ) {
+            return;
+          }
+          // Skip circular dependency warnings from @pnkx-lib/ui
+          if (
+            warning.code === "CIRCULAR_DEPENDENCY" &&
+            warning.message &&
+            warning.message.includes("@pnkx-lib/ui")
+          ) {
+            return;
+          }
+          // Skip reexport warnings that cause circular dependency issues
+          if (
+            warning.code === "PLUGIN_WARNING" &&
+            warning.message &&
+            warning.message.includes("was reexported through module") &&
+            warning.message.includes("@pnkx-lib/ui")
+          ) {
+            return;
+          }
+          // Skip specific circular dependency warnings for ActionRowTable
+          if (
+            warning.message &&
+            (warning.message.includes('Export "ActionRowTable"') ||
+              warning.message.includes("will end up in different chunks") ||
+              warning.message.includes("circular dependency between chunks"))
+          ) {
+            return;
+          }
+          // Skip externalized module warnings for known Node.js modules
+          if (
+            warning.code === "UNRESOLVED_IMPORT" &&
+            warning.message &&
+            ["fs", "path", "crypto", "util", "stream"].some((mod) =>
+              warning.message.includes(mod)
+            )
+          ) {
+            return;
+          }
+          // Skip module externalized warnings for build-time dependencies
+          if (
+            warning.code === "MODULE_LEVEL_DIRECTIVE" ||
+            (warning.message &&
+              warning.message.includes(
+                "externalized for browser compatibility"
+              ))
+          ) {
+            return;
+          }
+          warn(warning);
+        },
+      },
       terserOptions: isProd
         ? {
             compress: {
               drop_console: true,
               drop_debugger: true,
+            },
+            // Configure terser to handle module federation better
+            keep_fnames: true,
+            mangle: {
+              keep_fnames: true,
             },
           }
         : undefined,

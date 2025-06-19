@@ -4,17 +4,17 @@
     const importMap = {
       
         "react": async () => {
-          let pkg = await import("__mf__virtual/host_module__prebuild__react__prebuild__.js")
+          let pkg = await import("__mf__virtual/remote_app__prebuild__react__prebuild__.js")
           return pkg
         }
       ,
         "react-dom": async () => {
-          let pkg = await import("__mf__virtual/host_module__prebuild__react_mf_2_dom__prebuild__.js")
+          let pkg = await import("__mf__virtual/remote_app__prebuild__react_mf_2_dom__prebuild__.js")
           return pkg
         }
       ,
         "@tanstack/react-query": async () => {
-          let pkg = await import("__mf__virtual/host_module__prebuild___mf_0_tanstack_mf_1_react_mf_2_query__prebuild__.js")
+          let pkg = await import("__mf__virtual/remote_app__prebuild___mf_0_tanstack_mf_1_react_mf_2_query__prebuild__.js")
           return pkg
         }
       
@@ -26,7 +26,7 @@
             version: "18.3.1",
             scope: ["default"],
             loaded: false,
-            from: "host_module",
+            from: "remote_app",
             async get () {
               usedShared["react"].loaded = true
               const {"react": pkgDynamicImport} = importMap 
@@ -52,7 +52,7 @@
             version: "18.3.1",
             scope: ["default"],
             loaded: false,
-            from: "host_module",
+            from: "remote_app",
             async get () {
               usedShared["react-dom"].loaded = true
               const {"react-dom": pkgDynamicImport} = importMap 
@@ -78,7 +78,7 @@
             version: "5.80.7",
             scope: ["default"],
             loaded: false,
-            from: "host_module",
+            from: "remote_app",
             async get () {
               usedShared["@tanstack/react-query"].loaded = true
               const {"@tanstack/react-query": pkgDynamicImport} = importMap 

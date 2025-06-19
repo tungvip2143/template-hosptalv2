@@ -5,16 +5,14 @@ import { Fragment, Suspense } from "react";
 import { Route, Routes } from "react-router";
 import PrivateRoute from "./router/components/PrivateRoute/PrivateRoute";
 import menuRouter from "./router";
-import AppRedirectHandler from "./components/AppRedirectHandler";
+// import AppRedirectHandler from "./components/AppRedirectHandler";
 
 const traverseModules = (
   moduleList: any[],
-  layout: any,
+  Layout: any = Fragment,
   isPrivate: boolean
 ): JSX.Element[] => {
-  const Layout = layout ?? Fragment;
-
-  const createRouteElement = (Component: any) => {
+  const renderRouteElement = (Component: any) => {
     const element = (
       <Layout>
         <Component />
@@ -23,46 +21,42 @@ const traverseModules = (
     return isPrivate ? <PrivateRoute>{element}</PrivateRoute> : element;
   };
 
-  return moduleList.flatMap((module, idx) => {
-    const Component = module.component;
-    const routes = [];
+  return moduleList.flatMap(({ path, component: Component, children }, idx) => {
+    const routes: JSX.Element[] = [];
 
-    if (Component && module?.path) {
+    if (Component && path) {
       routes.push(
         <Route
-          key={`${module.path}-${idx}`}
-          path={module.path}
-          element={createRouteElement(Component)}
+          key={`${path}-${idx}`}
+          path={path}
+          element={renderRouteElement(Component)}
         />
       );
     }
 
-    if (module.children?.length) {
-      routes.push(...traverseModules(module.children, layout, isPrivate));
+    if (children?.length) {
+      routes.push(...traverseModules(children, Layout, isPrivate));
     }
 
-    if (module.children?.length) {
-      routes.push(...traverseModules(module.children, layout, isPrivate));
-    }
     return routes;
   });
 };
 
-function App() {
+const App: React.FC = () => {
   return (
     <Suspense fallback={<Skeleton />}>
-      <AppRedirectHandler />
+      {/* <AppRedirectHandler /> */}
       <Routes>
-        {menuRouter.flatMap((group) =>
+        {menuRouter.flatMap(({ children = [], component, isPrivateRoute }) =>
           traverseModules(
-            group.children,
-            group.layout ?? Fragment,
-            group.isPrivateRoute ?? false
+            children,
+            component ?? Fragment,
+            isPrivateRoute ?? false
           )
         )}
       </Routes>
     </Suspense>
   );
-}
+};
 
 export default App;

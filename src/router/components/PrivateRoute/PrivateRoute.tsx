@@ -1,4 +1,4 @@
-import { useAuth } from "@src/hook/useAuth";
+import { useAuth } from "@src/hooks/useAuth";
 import { Navigate } from "react-router";
 
 // check authen
