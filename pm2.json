@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "hospital-demo",
+      "script": "npx",
+      "interpreter": "none",
+      "args": "serve dist -p 800*",
+      "instances": 1,
+      "autorestart": true,
+      "watch": false
+    }
+  ]
+}
