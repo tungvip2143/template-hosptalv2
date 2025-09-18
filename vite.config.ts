@@ -23,7 +23,10 @@ export default defineConfig(({ mode }) => {
       federation({
         name: "remote_app",
         filename: "remoteEntry.js",
-        exposes: {},
+        exposes: {
+          "./version": "./src/version.ts",
+          "./locales": "./src/locales/index.ts",
+        },
         remotes: isProd
           ? getRemotes(env.VITE_CATEGORY_MODULE, [RemoteName.CategoryModule])
           : getRemotes(
