@@ -3,4 +3,8 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
-
+.router-icon {
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+}

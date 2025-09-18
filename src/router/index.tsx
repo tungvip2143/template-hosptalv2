@@ -2,10 +2,10 @@
 import { Fragment, lazy } from "react";
 import { PUBLIC_ROUTER } from "./components/route";
 import { generateId, MenuType } from "@pnkx-lib/ui";
+import SignIn from "@src/pages/SignIn";
+import DefaultLayout from "@src/pages/DefaultLayout";
 
 // Lazy load các component
-const SignIn = lazy(() => import("@src/pages/SignIn"));
-const DefaultLayout = lazy(() => import("@src/pages/DefaultLayout"));
 const DefaultPage = lazy(() => import("@src/pages/DefaultPage"));
 
 const menuRouter: MenuType[] = [
