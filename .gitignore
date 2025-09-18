@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.__mf__temp/
+/public/index.css
+.gitlab-ci.yml
+package-lock.json

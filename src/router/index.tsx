@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, lazy } from "react";
 import { PUBLIC_ROUTER } from "./components/route";
-import { MenuType, PageNotFound } from "@pnkx-lib/ui";
+import { generateId, MenuType } from "@pnkx-lib/ui";
 
 // Lazy load các component
 const SignIn = lazy(() => import("@src/pages/SignIn"));
@@ -10,39 +10,31 @@ const DefaultPage = lazy(() => import("@src/pages/DefaultPage"));
 
 const menuRouter: MenuType[] = [
   {
+    id: generateId("Login Layout"),
     name: "Login Layout",
     path: PUBLIC_ROUTER.SIGN_IN,
     component: Fragment,
-    isShow: false,
+    isShowChildren: true,
     children: [
       {
+        id: generateId("Sign In"),
         name: "Sign In",
         path: PUBLIC_ROUTER.SIGN_IN,
         component: SignIn,
       },
     ],
   },
+
   {
-    name: "PageNotFound",
-    path: PUBLIC_ROUTER.PAGE_404,
-    component: Fragment,
-    isShow: false,
-    children: [
-      {
-        name: "404",
-        path: PUBLIC_ROUTER.PAGE_404,
-        component: PageNotFound,
-      },
-    ],
-  },
-  {
+    id: generateId("Home Layout"),
     name: "Home Layout",
     path: PUBLIC_ROUTER.HOME,
     component: DefaultLayout,
     isPrivateRoute: false,
-    isShow: true,
+    isShowChildren: true,
     children: [
       {
+        id: generateId("Default Page"),
         name: "Default Page",
         path: PUBLIC_ROUTER.HOME,
         component: DefaultPage,

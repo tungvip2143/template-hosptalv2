@@ -1,8 +1,9 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { federation } from "@module-federation/vite";
 import compression from "vite-plugin-compression";
 import tailwindcss from "@tailwindcss/vite";
+import { getRemotes, RemoteMode, RemoteName } from "@pnkx-lib/core";
 
 const DEFAULT_PORT = 3000;
 const DEFAULT_PREVIEW_PORT = 8000;
@@ -10,10 +11,10 @@ const DEFAULT_CHUNK_SIZE_WARNING_LIMIT = 1024;
 
 export default defineConfig(({ mode }) => {
   // Load env theo mode
-  const isProd = mode === "production";
+  const isProd = mode === RemoteMode.Production;
 
   // Load env nếu cần sử dụng thêm
-  // const env = loadEnv(mode, process.cwd());
+  const env = loadEnv(mode, process.cwd());
 
   return {
     plugins: [
@@ -23,13 +24,32 @@ export default defineConfig(({ mode }) => {
         name: "remote_app",
         filename: "remoteEntry.js",
         exposes: {},
-        remotes: {},
+        remotes: isProd
+          ? getRemotes(env.VITE_CATEGORY_MODULE, [RemoteName.CategoryModule])
+          : getRemotes(
+              env.VITE_CATEGORY_MODULE,
+              [RemoteName.CategoryModule],
+              RemoteMode.Development
+            ),
         shared: {
-          react: { singleton: true, strictVersion: true },
-          "react-dom": { singleton: true, strictVersion: true },
+          react: {
+            singleton: true,
+            requiredVersion: "^18.3.1",
+            strictVersion: true,
+          },
+          "react-dom": {
+            singleton: true,
+            requiredVersion: "^18.3.1",
+            strictVersion: true,
+          },
+          "react-router": {
+            singleton: true,
+            requiredVersion: "^7.6.0",
+            strictVersion: true,
+          },
           "@tanstack/react-query": {
             singleton: true,
-            requiredVersion: ">=5.74.4",
+            requiredVersion: "^5.75.4",
           },
         },
       }),
@@ -142,8 +162,10 @@ export default defineConfig(({ mode }) => {
 
     server: {
       port: DEFAULT_PORT,
-      strictPort: true,
-      hmr: !isProd,
+      cors: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     },
 
     preview: {
