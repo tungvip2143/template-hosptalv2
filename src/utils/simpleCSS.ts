@@ -42,8 +42,7 @@ export const loadMultipleCSSSimple = (urls: (string | undefined)[]): void => {
 export const loadAllRemoteCSS = (): void => {
   const currentMode = import.meta.env.MODE;
   const isDev = currentMode === "development";
-  // const remoteMode = isDev ? RemoteMode.Development : RemoteMode.Production;
-  const remoteMode = RemoteMode.Production;
+  const remoteMode = isDev ? RemoteMode.Development : RemoteMode.Production;
   const cssUrls = getCss(
     import.meta.env.VITE_CATEGORY_MODULE,
     Object.values(RemoteName),

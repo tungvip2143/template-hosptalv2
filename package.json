@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "@module-federation/vite": "^1.2.7",
-    "@pnkx-lib/core": "^1.1.217",
-    "@pnkx-lib/icon": "0.0.87",
-    "@pnkx-lib/ui": "^1.9.542",
+    "@pnkx-lib/core": "^1.1.218",
+    "@pnkx-lib/icon": "^0.0.89",
+    "@pnkx-lib/ui": "^1.9.549",
     "@tailwindcss/cli": "^4.1.6",
     "@tailwindcss/vite": "^4.0.17",
     "@tanstack/react-query": "^5.75.4",
