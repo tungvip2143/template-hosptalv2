@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import { federation } from "@module-federation/vite";
 import compression from "vite-plugin-compression";
 import tailwindcss from "@tailwindcss/vite";
-import { getRemotes, RemoteMode, RemoteName } from "@pnkx-lib/core";
+import { RemoteMode } from "@pnkx-lib/core/constants/remotesNames";
 
 const DEFAULT_PORT = 3020;
 const DEFAULT_PREVIEW_PORT = 8000;
@@ -24,16 +24,8 @@ export default defineConfig(({ mode }) => {
         name: "remote_app",
         filename: "remoteEntry.js",
         exposes: {
-          "./version": "./src/version.ts",
           "./locales": "./src/locales/index.ts",
         },
-        remotes: isProd
-          ? getRemotes(env.VITE_CATEGORY_MODULE, [RemoteName.CategoryModule])
-          : getRemotes(
-              env.VITE_CATEGORY_MODULE,
-              [RemoteName.CategoryModule],
-              RemoteMode.Development,
-            ),
         shared: {
           react: {
             singleton: true,
@@ -53,6 +45,14 @@ export default defineConfig(({ mode }) => {
           "@tanstack/react-query": {
             singleton: true,
             requiredVersion: "^5.75.4",
+          },
+          i18next: {
+            singleton: true,
+            requiredVersion: ">=23.0.0",
+          },
+          "react-i18next": {
+            singleton: true,
+            requiredVersion: ">=15.0.0",
           },
         },
       }),

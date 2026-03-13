@@ -3,11 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "sideEffects": false,
-  "engines": {
-    "node": ">=20.10 <23"
-  },
-  "packageManager": "npm@10",
   "scripts": {
     "go": "pnkx-scripts check-update-pnkx && pnkx-scripts generate-env && vite --mode development",
     "clean": "rm -rf dist",
@@ -17,16 +12,16 @@
     "dev:remote": "pnkx-scripts bootstrap-manifest remote && npm run go",
     "dev:local": "pnkx-scripts bootstrap-manifest local && npm run go",
     "dev:hybrid": "pnkx-scripts bootstrap-manifest hybrid && npm run go",
-    "switch-env": "pnkx-scripts switch-env",
     "sync-locales": "pnkx-scripts sync-locales",
     "gen-module": "pnkx-scripts gen-module",
     "build:ci": "npx --yes @pnkx-lib/scripts perform-build system"
   },
   "dependencies": {
+    "@module-federation/runtime": "^2.1.0",
     "@module-federation/vite": "^1.2.7",
-    "@pnkx-lib/core": "0.1.0-staging.8",
-    "@pnkx-lib/icon": "0.1.0-dev.0",
-    "@pnkx-lib/ui": "0.1.0-dev.0",
+    "@pnkx-lib/core": "0.1.0-staging.21",
+    "@pnkx-lib/icon": "0.1.0-staging.8",
+    "@pnkx-lib/ui": "0.1.0-staging.13",
     "@tailwindcss/cli": "^4.1.12",
     "@tailwindcss/vite": "^4.0.17",
     "@tanstack/react-query": "^5.75.4",
@@ -40,7 +35,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
-    "@pnkx-lib/scripts": "0.1.0-dev.0",
+    "@pnkx-lib/scripts": "0.1.0-staging.2",
     "@tanstack/react-query-devtools": "^5.76.1",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.15.3",

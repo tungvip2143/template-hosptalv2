@@ -1,43 +1,47 @@
 stages: [build, deploy]
 
-.default_fe: &default_fe
-  tags: [fe-system]
-  cache:
-    key: "npm-$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE"
-    paths: [.npm/]
-    policy: pull-push
-  artifacts:
-    paths: [dist]
-    expire_in: 3 days
-
-build-dev:
+build-remote-dev:
   stage: build
-  <<: *default_fe
+  image: "${NODE_BUILD_IMAGE}"
+  tags: [fe-build]
+  extends: [.fe_defaults, .with_npm_auth]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "develop"'
   variables:
-    NODE_ENV: "production"
-    ENV_KEY_NAME: "VITE_BUILD_VERSION" # đảm bảo script build-fe ghi đúng cho Vite
+    BUILD_ID: "${CI_PIPELINE_ID}"
+    ARTIFACT: "remote-app-${BUILD_ID}.tar.gz"
+    NPM_CONFIG_CACHE: ".npm"
+    BUILD_MODE: "dev"
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+    policy: pull-push
+    when: on_success
   script:
-    - node -v && npm -v
-    - bash /home/gitlab-runner/config-build/V2/FE/build-fe.sh --dir "$CI_PROJECT_DIR" --env production
-    # ghi file dotenv để deploy đọc được
-    - echo "BUILD_VERSION=$BUILD_VERSION" > "$CI_PROJECT_DIR/build.env"
+    - npm run build:ci
   artifacts:
+    when: on_success
+    expire_in: 7 days
+    paths:
+      - "remote-app-*.tar.gz"
+      - "artifact.sha256"
     reports:
       dotenv: build.env
-    paths:
-      - dist/
-    expire_in: 3 days
 
-deploy-dev:
+deploy-remote-dev:
   stage: deploy
-  needs: ["build-dev"]
-  tags: [fe-system]
+  extends: [.with_npm_auth]
+  tags: [fe-dev]
+  resource_group: deploy:remote-app
+  needs: ["build-remote-dev"]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"'
-  environment:
-    name: staging # staging / preview / qa...
+    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "develop"'
+  variables:
+    EDGE_ORIGIN: "${DEV_EDGE_ORIGIN}"
+    VOL_REMOTE_APP: "fe-docker_remote_app_html"
+    VOL_MANIFEST: "fe-docker_manifest_data"
   script:
-    - echo "Deploy version: $BUILD_VERSION"
-    - bash /home/gitlab-runner/config-build/V2/FE/deploy-fe.sh "$CI_COMMIT_BRANCH" fe-admin-system
+    - npx @pnkx-lib/scripts perform-deploy remote-app VOL_REMOTE_APP

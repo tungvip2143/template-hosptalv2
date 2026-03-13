@@ -1,10 +1,163 @@
+@import "./theme.css";
 @import "tailwindcss";
+@source inline("{sm:,md:,lg:,xl:,2xl:,}col-span-{1..12}");
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+/* global.css hoặc index.css */
+/* styles.css */
+.table-wrapper {
+  padding-top: 1rem; /* tương đương pt-4 */
+  padding-bottom: 1rem; /* pb-4 */
+  height: 100%; /* h-full */
+  padding-right: 1.5rem; /* pr-6 */
+}
+
+.table-height {
+  height: 60%; /* tương đương h-[60%] */
+}
+
+/* button thêm mới */
+.btn-add-new {
+  transform: translateY(110%);
+}
+
+/* button thêm mới trong màn có sử dụng Tabs */
+.btn-add-new-tabs {
+  position: absolute;
+  top: -75px;
+  right: 0;
+}
+
+/* css bảng trong màn có sử dụng Tabs */
+.table-wrapper-tabs {
+  padding-bottom: 1rem; /* pb-4 */
+  height: 100%; /* h-full */
+  padding-right: 2.5rem; /* pr-10 */
+}
+
+.modal-data-picker .react-datepicker-wrapper {
+  width: 100% !important;
+}
+
+/* header của modal */
+.ant-modal .ant-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--pnkx-color-border-subtle);
+}
+
+.inputSearchKeyCustom {
+  width: 400px !important;
+  border-radius: 6px !important;
+  border-color: var(--pnkx-color-blue-100) !important;
+  margin-right: 12px;
+  height: 36px !important;
+}
+
+.inputSearchKeyCustom .ant-input-clear-icon {
+  color: var(--pnkx-color-blue-50);
+}
+
 .router-icon {
   height: 24px;
   width: 24px;
   flex-shrink: 0;
+}
+
+@layer components {
+  .btn-icon-18 {
+    @apply ml-3 [&_.ant-btn-icon]:h-[18px];
+  }
+}
+
+.tag-status-cilinical-examination {
+  padding-inline: 0.5rem !important;
+  border-radius: 0.5rem !important;
+  width: -moz-fit-content !important;
+  width: fit-content !important;
+  font-weight: 500 !important;
+}
+
+.content-modal {
+  gap: 0.75em;
+  scroll-behavior: smooth;
+  overflow: auto;
+  padding: 1.5rem;
+  max-height: 65vh;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.form-modal-category-container {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--spacing) * 4) !important /* 1rem = 16px */ ;
+}
+
+/* css footer form */
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--pnkx-color-white);
+  padding: 1rem 1.5rem; /* tương đương p-6 */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top: 1px solid var(--pnkx-color-gray-150);
+}
+
+.row-selected {
+  background-color: var(--pnkx-color-legacy-f1f5f9) !important;
+}
+
+.drag-list-items {
+  background-color: var(--pnkx-color-blue-subtle) !important;
+  opacity: 50% !important;
+  border-color: var(--pnkx-color-blue-300) !important;
+  scale: 105% !important;
+}
+
+.non-drag-list-items {
+  background-color: var(--pnkx-color-legacy-fff) !important;
+  border-color: var(--pnkx-color-blue-300) !important;
+  &:hover {
+    background-color: var(--pnkx-color-blue-subtle) !important;
+  }
+}
+
+.drag-item-title {
+  color: var(--pnkx-color-gray-900);
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  line-height: 20px !important;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background: var(--pnkx-color-border-subtle);
+  border-radius: 10px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: var(--pnkx-color-legacy-a8a8a8);
+  border-radius: 10px !important;
+  border: 1px solid var(--pnkx-color-border-subtle);
+}
+
+.scrollable-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--pnkx-color-legacy-a8c3ff);
+}
+
+.scrollable-container::-webkit-scrollbar-corner {
+  background: var(--pnkx-color-border-subtle);
 }

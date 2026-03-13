@@ -1,13 +1,13 @@
 import "./styles/App.css";
 import { Route, Routes } from "react-router";
-import DefaultLayout from "./pages/DefaultLayout";
+import { DefaultLayoutCommon, SiteAccessDeniedModal } from "@pnkx-lib/ui";
+import menuRouter from "./router";
 
 import {
   AuthGuard,
   getPhenikaaOAuthConfig,
   redirectToKeycloak,
 } from "@pnkx-lib/core";
-import { SiteAccessDeniedModal } from "@pnkx-lib/ui";
 
 const App: React.FC = () => {
   return (
@@ -23,7 +23,7 @@ const App: React.FC = () => {
                 )
               }
             >
-              <DefaultLayout />
+              <DefaultLayoutCommon menuRouter={menuRouter} />
             </AuthGuard>
           }
         />
