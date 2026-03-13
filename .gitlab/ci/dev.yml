@@ -1,0 +1,43 @@
+stages: [build, deploy]
+
+.default_fe: &default_fe
+  tags: [fe-system]
+  cache:
+    key: "npm-$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE"
+    paths: [.npm/]
+    policy: pull-push
+  artifacts:
+    paths: [dist]
+    expire_in: 3 days
+
+build-dev:
+  stage: build
+  <<: *default_fe
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+  variables:
+    NODE_ENV: "production"
+    ENV_KEY_NAME: "VITE_BUILD_VERSION" # đảm bảo script build-fe ghi đúng cho Vite
+  script:
+    - node -v && npm -v
+    - bash /home/gitlab-runner/config-build/V2/FE/build-fe.sh --dir "$CI_PROJECT_DIR" --env production
+    # ghi file dotenv để deploy đọc được
+    - echo "BUILD_VERSION=$BUILD_VERSION" > "$CI_PROJECT_DIR/build.env"
+  artifacts:
+    reports:
+      dotenv: build.env
+    paths:
+      - dist/
+    expire_in: 3 days
+
+deploy-dev:
+  stage: deploy
+  needs: ["build-dev"]
+  tags: [fe-system]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+  environment:
+    name: staging # staging / preview / qa...
+  script:
+    - echo "Deploy version: $BUILD_VERSION"
+    - bash /home/gitlab-runner/config-build/V2/FE/deploy-fe.sh "$CI_COMMIT_BRANCH" fe-admin-system

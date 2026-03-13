@@ -1,0 +1,42 @@
+stages: [build, deploy]
+
+.default_fe: &default_fe
+  tags: [fe-system]
+  cache:
+    key: "npm-$CI_COMMIT_REF_SLUG-$CI_JOB_STAGE"
+    paths: [.npm/]
+    policy: pull-push
+  artifacts:
+    paths: [dist]
+    expire_in: 1 week
+
+build-main:
+  stage: build
+  <<: *default_fe
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  variables:
+    NODE_ENV: "production"
+    ENV_KEY_NAME: "VITE_BUILD_VERSION"
+  script:
+    - 'node -v && npm -v'
+    - 'bash /home/gitlab-runner/config-build/V2/FE/build-fe.sh --dir "$CI_PROJECT_DIR" --env production'
+    - 'echo "BUILD_VERSION=$BUILD_VERSION" > "$CI_PROJECT_DIR/build.env"'
+  artifacts:
+    reports:
+      dotenv: build.env
+    paths:
+      - dist/
+    expire_in: 1 week
+
+deploy-main:
+  stage: deploy
+  needs: ["build-main"]
+  tags: [fe-system]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  environment:
+    name: production
+  script:
+    - 'echo "Deploying version: ${BUILD_VERSION:-unset}"'
+    - 'bash /home/gitlab-runner/config-build/V2/FE/deploy-fe.sh "$CI_COMMIT_BRANCH" fe-admin-system'

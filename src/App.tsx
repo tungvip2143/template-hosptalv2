@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import "./styles/App.css";
 import { Route, Routes } from "react-router";
 import DefaultLayout from "./pages/DefaultLayout";
