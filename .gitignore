@@ -4,9 +4,9 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
 pnpm-debug.log*
 lerna-debug.log*
-
 node_modules
 dist
 dist-ssr
@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+yarn.lock
+
+# Temp from module federation
+.__mf__temp/
+
+# Module Federation
+public/mf/
+
+# Generated env files
+.env
+.env.*
+!.env.example
+
+# Archives
+*.tar.gz
+*.tgz

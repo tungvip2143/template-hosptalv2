@@ -1,14 +1,13 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const AppRedirectHandler = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Nếu đang ở trang chủ "/", tự động chuyển sang "/danh-muc"
     if (location.pathname === "/") {
-      navigate("", { replace: true });
+      navigate("/home", { replace: true });
     }
   }, [location.pathname, navigate]);
 

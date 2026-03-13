@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { federation } from "@module-federation/vite";
 import compression from "vite-plugin-compression";
 import tailwindcss from "@tailwindcss/vite";
 
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 3020;
 const DEFAULT_PREVIEW_PORT = 8000;
 const DEFAULT_CHUNK_SIZE_WARNING_LIMIT = 1024;
 
@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
   const isProd = mode === "production";
 
   // Load env nếu cần sử dụng thêm
-  // const env = loadEnv(mode, process.cwd());
+  const env = loadEnv(mode, process.cwd());
 
   return {
     plugins: [
@@ -45,8 +45,10 @@ export default defineConfig(({ mode }) => {
       modulePreload: !isProd,
       target: "esnext",
       minify: isProd ? "terser" : false,
-      cssCodeSplit: true,
+      cssCodeSplit: false,
       sourcemap: !isProd,
+      outDir: "dist",
+      assetsDir: "assets",
       chunkSizeWarningLimit: DEFAULT_CHUNK_SIZE_WARNING_LIMIT,
       // Thêm cấu hình để xử lý circular dependency
       commonjsOptions: {
@@ -107,7 +109,7 @@ export default defineConfig(({ mode }) => {
             warning.code === "UNRESOLVED_IMPORT" &&
             warning.message &&
             ["fs", "path", "crypto", "util", "stream"].some((mod) =>
-              warning.message.includes(mod)
+              warning.message.includes(mod),
             )
           ) {
             return;
@@ -117,7 +119,7 @@ export default defineConfig(({ mode }) => {
             warning.code === "MODULE_LEVEL_DIRECTIVE" ||
             (warning.message &&
               warning.message.includes(
-                "externalized for browser compatibility"
+                "externalized for browser compatibility",
               ))
           ) {
             return;
@@ -142,12 +144,16 @@ export default defineConfig(({ mode }) => {
 
     server: {
       port: DEFAULT_PORT,
+      cors: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       strictPort: true,
-      hmr: !isProd,
     },
 
     preview: {
       port: DEFAULT_PREVIEW_PORT,
+      host: env.VITE_HOST,
     },
 
     optimizeDeps: {
