@@ -1,50 +1,52 @@
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { federation } from "@module-federation/vite";
 import compression from "vite-plugin-compression";
 import tailwindcss from "@tailwindcss/vite";
 import { RemoteMode } from "@pnkx-lib/core/constants/remotesNames";
+import { APP_CONFIG } from "./src/app.config";
 
-const DEFAULT_PORT = 3020;
-const DEFAULT_PREVIEW_PORT = 8000;
 const DEFAULT_CHUNK_SIZE_WARNING_LIMIT = 1024;
 
 export default defineConfig(({ mode }) => {
-  // Load env theo mode
-  const isProd = mode === RemoteMode.Production;
-
-  // Load env nếu cần sử dụng thêm
-  const env = loadEnv(mode, process.cwd());
+  const isDeployMode = mode !== RemoteMode.Development;
 
   return {
+    base: isDeployMode ? APP_CONFIG.basePath : "/",
     plugins: [
       react(),
       tailwindcss(),
       federation({
-        name: "remote_app",
+        name: APP_CONFIG.remoteName,
+        dts: false,
+        dev: {
+          disableDynamicRemoteTypeHints: true,
+        },
         filename: "remoteEntry.js",
         exposes: {
+          "./routeManifest": "./src/router/routeManifest.tsx",
           "./locales": "./src/locales/index.ts",
         },
         shared: {
           react: {
             singleton: true,
-            requiredVersion: "^18.3.1",
-            strictVersion: true,
+            requiredVersion: ">=18.0.0",
           },
           "react-dom": {
             singleton: true,
-            requiredVersion: "^18.3.1",
-            strictVersion: true,
+            requiredVersion: ">=18.0.0",
           },
           "react-router": {
             singleton: true,
-            requiredVersion: "^7.6.0",
-            strictVersion: true,
+            requiredVersion: ">=7.0.0",
+          },
+          "@pnkx-lib/core": {
+            singleton: true,
+            requiredVersion: ">=0.1.0-0",
           },
           "@tanstack/react-query": {
             singleton: true,
-            requiredVersion: "^5.75.4",
+            requiredVersion: ">=5.74.4",
           },
           i18next: {
             singleton: true,
@@ -55,25 +57,26 @@ export default defineConfig(({ mode }) => {
             requiredVersion: ">=15.0.0",
           },
         },
+        library: {
+          type: "module",
+        },
       }),
-      // Bật nén chỉ khi production
-      isProd &&
+      isDeployMode &&
         compression({
           algorithm: "gzip",
           threshold: 10240,
         }),
-    ],
+    ].filter(Boolean),
 
     build: {
-      modulePreload: !isProd,
+      modulePreload: !isDeployMode,
       target: "esnext",
-      minify: isProd ? "terser" : false,
-      cssCodeSplit: false,
-      sourcemap: !isProd,
+      minify: isDeployMode ? "terser" : false,
+      cssCodeSplit: true,
+      sourcemap: !isDeployMode,
       outDir: "dist",
       assetsDir: "assets",
       chunkSizeWarningLimit: DEFAULT_CHUNK_SIZE_WARNING_LIMIT,
-      // Thêm cấu hình để xử lý circular dependency
       commonjsOptions: {
         include: [/node_modules/],
         transformMixedEsModules: true,
@@ -81,27 +84,18 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: "index.html",
         external: (id) => {
-          // Externalize 'antd' và các package phụ thuộc ngoài khác
-          if (["antd", "moment"].includes(id)) {
-            return true;
-          }
-          // Externalize Node.js built-in modules only when they're imported by build tools
           if (["fs", "path", "crypto", "util", "stream", "os"].includes(id)) {
-            return false; // Don't externalize, let Vite handle the polyfill/error
+            return false;
           }
           return false;
         },
-
-        // Suppress the eval warning for module federation
         onwarn(warning, warn) {
-          // Skip eval warnings from module federation
           if (
             warning.code === "EVAL" &&
             warning.id?.includes("@module-federation")
           ) {
             return;
           }
-          // Skip circular dependency warnings from @pnkx-lib/ui
           if (
             warning.code === "CIRCULAR_DEPENDENCY" &&
             warning.message &&
@@ -109,7 +103,6 @@ export default defineConfig(({ mode }) => {
           ) {
             return;
           }
-          // Skip reexport warnings that cause circular dependency issues
           if (
             warning.code === "PLUGIN_WARNING" &&
             warning.message &&
@@ -127,7 +120,6 @@ export default defineConfig(({ mode }) => {
           ) {
             return;
           }
-          // Skip externalized module warnings for known Node.js modules
           if (
             warning.code === "UNRESOLVED_IMPORT" &&
             warning.message &&
@@ -137,7 +129,6 @@ export default defineConfig(({ mode }) => {
           ) {
             return;
           }
-          // Skip module externalized warnings for build-time dependencies
           if (
             warning.code === "MODULE_LEVEL_DIRECTIVE" ||
             (warning.message &&
@@ -150,13 +141,12 @@ export default defineConfig(({ mode }) => {
           warn(warning);
         },
       },
-      terserOptions: isProd
+      terserOptions: isDeployMode
         ? {
             compress: {
               drop_console: true,
               drop_debugger: true,
             },
-            // Configure terser to handle module federation better
             keep_fnames: true,
             mangle: {
               keep_fnames: true,
@@ -166,7 +156,7 @@ export default defineConfig(({ mode }) => {
     },
 
     server: {
-      port: DEFAULT_PORT,
+      port: APP_CONFIG.devPort,
       cors: true,
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -175,8 +165,7 @@ export default defineConfig(({ mode }) => {
     },
 
     preview: {
-      port: DEFAULT_PREVIEW_PORT,
-      host: env.VITE_HOST,
+      port: APP_CONFIG.previewPort,
     },
 
     optimizeDeps: {
@@ -185,6 +174,8 @@ export default defineConfig(({ mode }) => {
         "react-dom",
         "@tanstack/react-query",
         "@module-federation/vite",
+        "@pnkx-lib/core",
+        "@pnkx-lib/ui",
       ],
     },
 

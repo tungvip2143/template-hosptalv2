@@ -1,35 +1,35 @@
 import "./styles/App.css";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { DefaultLayoutCommon, SiteAccessDeniedModal } from "@pnkx-lib/ui";
-import menuRouter from "./router";
+import { standaloneRouteManifest } from "./router/routeManifest";
 
 import {
   AuthGuard,
   getPhenikaaOAuthConfig,
   redirectToKeycloak,
 } from "@pnkx-lib/core";
+import { APP_CONFIG } from "./app.config";
 
 const App: React.FC = () => {
   return (
     <>
       <Routes>
         <Route
+          path="/"
+          element={<Navigate to={APP_CONFIG.defaultRoute} replace />}
+        />
+        <Route
           path="*"
           element={
             <AuthGuard
-              redirectToLogin={() =>
-                redirectToKeycloak(
-                  getPhenikaaOAuthConfig(),
-                )
-              }
+              redirectToLogin={() => redirectToKeycloak(getPhenikaaOAuthConfig())}
             >
-              <DefaultLayoutCommon menuRouter={menuRouter} />
+              <DefaultLayoutCommon routeManifest={standaloneRouteManifest} />
             </AuthGuard>
           }
         />
       </Routes>
 
-      {/* Site Access Control - Auto shows modal when user accesses unauthorized site */}
       <SiteAccessDeniedModal />
     </>
   );

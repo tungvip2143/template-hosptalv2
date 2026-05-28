@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { initMF, mfImport } from "../../init";
 import { createModuleLoader } from "@pnkx-lib/core";
 

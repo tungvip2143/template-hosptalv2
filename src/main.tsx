@@ -4,7 +4,6 @@ import "./styles/index.css";
 import "@pnkx-lib/ui/dist/style.css";
 
 import App from "./App";
-import AppRedirectHandler from "./components/AppRedirectHandler";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router";
 import { ErrorBoundary } from "@pnkx-lib/ui";
@@ -20,6 +19,7 @@ import {
   getPhenikaaOAuthConfig,
 } from "@pnkx-lib/core";
 import { AppConfigProvider } from "./providers/ConfigProvider";
+import { RuntimeFlagProvider } from "./providers/RuntimeFlagProvider";
 
 const queryClient = new QueryClient();
 
@@ -42,14 +42,15 @@ async function bootstrap() {
                 config={getPhenikaaOAuthConfig()}
                 tokenProvider={devTokenProvider}
               >
-                <AuthProvider>
-                  <AppRedirectHandler />
-                  <App />
-                  <ReactQueryDevtools
-                    initialIsOpen={false}
-                    buttonPosition="bottom-right"
-                    position="bottom"
-                  />
+                <AuthProvider enablePermission={false}>
+                  <RuntimeFlagProvider>
+                    <App />
+                    <ReactQueryDevtools
+                      initialIsOpen={false}
+                      buttonPosition="bottom-right"
+                      position="bottom"
+                    />
+                  </RuntimeFlagProvider>
                 </AuthProvider>
               </AuthBootstrap>
             </QueryClientProvider>
