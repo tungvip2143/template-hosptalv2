@@ -32,10 +32,10 @@ Mục tiêu của template này là bám theo phần khung đang dùng chung ở
   - runtime flags của service
 - `pnkx-ui/packages/scripts/src/repo-registry.json` ở workspace root
   - thêm service mới vào registry trung tâm
-  - sau đó chạy `node tools/service-registry.cjs validate`
-  - có thể sinh nhanh `src/app.config.ts` bằng `node tools/service-registry.cjs app-config --repo <service-repo> --target <repo>/src/app.config.ts --write`
-- nếu muốn bootstrap gần như tự động, ưu tiên dùng `node tools/new-service.cjs new-service --repo <service-repo> --module <module> --write`
-- nếu muốn ít nhập tham số nhất, dùng `node tools/new-service.cjs wizard`
+  - sau đó chạy `pnkx-scripts service-registry validate`
+  - có thể sinh nhanh `src/app.config.ts` bằng `pnkx-scripts service-registry app-config --repo <service-repo> --target <repo>/src/app.config.ts --write`
+- nếu muốn bootstrap gần như tự động, ưu tiên dùng `pnkx-scripts new-service --repo <service-repo> --module <module> --write`
+- nếu muốn ít nhập tham số nhất, dùng `pnkx-scripts new-service wizard`
 - flow này sẽ tự `git init`, tạo branch theo branch hiện tại của workspace hoặc fallback `staging`, rồi tạo commit bootstrap đầu tiên
 
 ## Scripts chính
