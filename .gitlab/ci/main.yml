@@ -2,33 +2,23 @@ stages: [build, deploy]
 
 build-main:
   stage: build
-  extends: [.fe_defaults, .with_npm_auth]
+  extends: [.build_remote_app_prod_legacy]
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
   variables:
-    NODE_ENV: "production"
-    ENV_KEY_NAME: "VITE_BUILD_VERSION"
-  script:
-    - "node -v && npm -v"
-    - 'bash /home/gitlab-runner/config-build/V2/FE/build-fe.sh --dir "$CI_PROJECT_DIR" --env production'
-    - 'echo "BUILD_VERSION=$BUILD_VERSION" > "$CI_PROJECT_DIR/build.env"'
-
-  artifacts:
-    reports:
-      dotenv: build.env
-    paths:
-      - dist/
-    expire_in: 1 week
+    PROJECT_KEY: "templateService"
+    REMOTE_APP_PROD_BUILD_ENV: "production"
 
 deploy-main:
   stage: deploy
-  extends: [.with_npm_auth]
+  extends: [.deploy_remote_app_prod_legacy]
   needs: ["build-main"]
-  tags: [fe-system]
+  tags: [fe-template-service]
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
   environment:
     name: production
-  script:
-    - 'echo "Deploying version: ${BUILD_VERSION:-unset}"'
-    - 'bash /home/gitlab-runner/config-build/V2/FE/deploy-fe.sh "$CI_COMMIT_BRANCH" fe-admin-system'
+  variables:
+    PROJECT_KEY: "templateService"
+    FEATURE_FLAG_SYNC_ENVIRONMENT: "production"
+    REMOTE_APP_PROD_DEPLOY_TARGET: "fe-template-service"

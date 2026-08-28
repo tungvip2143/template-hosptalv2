@@ -1,47 +1,23 @@
 stages: [build, deploy]
 
-build-remote-dev:
+build-templateService-dev:
   stage: build
-  image: "${NODE_BUILD_IMAGE}"
-  tags: [fe-build]
-  extends: [.fe_defaults, .with_npm_auth]
+  extends: [.build_remote_app]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
   variables:
-    BUILD_ID: "${CI_PIPELINE_ID}"
-    ARTIFACT: "remote-app-${BUILD_ID}.tar.gz"
+    PROJECT_KEY: "templateService"
     NPM_CONFIG_CACHE: ".npm"
-    BUILD_MODE: "dev"
-  cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - .npm/
-    policy: pull-push
-    when: on_success
-  script:
-    - npm run build:ci
-  artifacts:
-    when: on_success
-    expire_in: 7 days
-    paths:
-      - "remote-app-*.tar.gz"
-      - "artifact.sha256"
-    reports:
-      dotenv: build.env
+    ENV_TAG: "dev"
 
-deploy-remote-dev:
+deploy-templateService-dev:
   stage: deploy
-  extends: [.with_npm_auth]
+  extends: [.deploy_remote_app]
   tags: [fe-dev]
-  resource_group: deploy:remote-app
-  needs: ["build-remote-dev"]
+  resource_group: deploy:templateService
+  needs: ["build-templateService-dev"]
   rules:
-    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
   variables:
-    EDGE_ORIGIN: "${DEV_EDGE_ORIGIN}"
-    VOL_REMOTE_APP: "fe-docker_remote_app_html"
-    VOL_MANIFEST: "fe-docker_manifest_data"
-  script:
-    - npx @pnkx-lib/scripts perform-deploy remote-app VOL_REMOTE_APP
+    PROJECT_KEY: "templateService"
+    FEATURE_FLAG_SYNC_ENVIRONMENT: "develop"

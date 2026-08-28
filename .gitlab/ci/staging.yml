@@ -1,0 +1,23 @@
+stages: [build, deploy]
+
+build-templateService-staging:
+  stage: build
+  extends: [.build_remote_app]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+  variables:
+    PROJECT_KEY: "templateService"
+    NPM_CONFIG_CACHE: ".npm"
+    ENV_TAG: "staging"
+
+deploy-templateService-staging:
+  stage: deploy
+  extends: [.deploy_remote_app]
+  tags: [fe-staging]
+  resource_group: deploy:templateService
+  needs: ["build-templateService-staging"]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+  variables:
+    PROJECT_KEY: "templateService"
+    FEATURE_FLAG_SYNC_ENVIRONMENT: "staging"

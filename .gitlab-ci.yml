@@ -1,0 +1,16 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main" && $CI_COMMIT_BRANCH != "staging" && $CI_COMMIT_BRANCH != "develop"'
+      when: never
+    - when: always
+
+include:
+  - project: "hospital-v2/fe/fe-ci-templates"
+    ref: "v1.2.0"
+    file:
+      - "/remote-app/common.yml"
+    rules:
+      - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "develop"'
+  - local: .gitlab/ci/main.yml
+  - local: .gitlab/ci/staging.yml
+  - local: .gitlab/ci/dev.yml
