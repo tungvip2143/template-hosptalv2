@@ -6,7 +6,7 @@ workflow:
 
 include:
   - project: "hospital-v2/fe/fe-ci-templates"
-    ref: "v1.2.0"
+    ref: "v1.3.11"
     file:
       - "/remote-app/common.yml"
     rules:
